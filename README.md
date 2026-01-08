@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naraa Cuisine - Authentic Taste</title>
+    <style>
+        /* --- CSS VARIABLES (SKY BLUE THEME) --- */
+        :root {
+            /* Sky Blue Palette */
+            --primary: #0288d1;       /* Deep Sea Blue for Text/Header */
+            --accent: #29b6f6;        /* Bright Sky Blue for Buttons/Accents */
+            --light-sky: #e1f5fe;     /* Very Light Blue for Background */
+            --white: #ffffff;
+            
+            --dark: #2c3e50;
+            --text-grey: #546e7a;
+            
+            /* Soft Blue Shadow */
+            --shadow: 0 10px 20px rgba(2, 136, 209, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif; /* Modern Font */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- SCROLL REVEAL ANIMATION --- */
+        .reveal {
+            opacity: 0;
+            transition: all 1s ease-out;
+        }
+
+        /* Slide Up */
+        .reveal-up { transform: translateY(50px); }
+        /* Slide Left */
+        .reveal-left { transform: translateX(-100px); }
+        /* Slide Right */
+        .reveal-right { transform: translateX(100px); }
+
+        /* Active class when element is visible */
+        .reveal.active {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--white);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo span { color: #fff; font-weight: 300; }
+
+        nav ul { display: flex; gap: 25px; }
+        nav a { font-weight: 500; }
+        nav a:hover { color: var(--light-sky); text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            /* Fresh Sky Blue Gradient */
+            background: linear-gradient(135deg, rgba(41, 182, 246, 0.9), rgba(2, 136, 209, 0.8)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax Effect */
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            border-bottom-left-radius: 50% 10%;
+            border-bottom-right-radius: 50% 10%;
+        }
+
+        .hero h1 { 
+            font-size: 3.5rem; 
+            margin-bottom: 15px; 
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            font-weight: 800;
+        }
+        
+        .hero p { font-size: 1.3rem; margin-bottom: 30px; max-width: 700px; font-weight: 300; }
+        
+        .btn {
+            background-color: var(--white);
+            color: var(--primary);
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: 2px solid var(--white);
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1rem;
+        }
+        .btn:hover { 
+            background-color: transparent; 
+            color: var(--white); 
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary);
+        }
+
+        /* --- GENERAL SECTIONS --- */
+        .section { padding: 5rem 5%; overflow: hidden; }
+        .section-title { 
+            text-align: center; 
+            margin-bottom: 3.5rem; 
+            font-size: 2.5rem; 
+            color: var(--primary); 
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- MENU STYLE --- */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: 0.4s;
+            border: 1px solid var(--light-sky);
+        }
+        
+        .menu-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 15px 30px rgba(41, 182, 246, 0.25);
+        }
+
+        .menu-img {
+            height: 220px;
+            background-color: var(--light-sky);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .menu-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .menu-card:hover .menu-img img { transform: scale(1.1); }
+
+        .menu-content { padding: 25px; }
+        .menu-title { font-size: 1.4rem; margin-bottom: 10px; color: var(--primary); }
+        .menu-price { 
+            font-weight: bold; 
+            color: var(--accent); 
+            font-size: 1.3rem; 
+            display: block; 
+            margin-top: 15px;
+        }
+
+        /* --- GALLERY --- */
+        .bg-light { background-color: var(--light-sky); }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .gallery-item {
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+        .gallery-item:hover img { transform: scale(1.1) rotate(2deg); }
+
+        /* --- TESTIMONIALS --- */
+        .testi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .testi-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--accent);
+            transition: 0.3s;
+        }
+        .testi-card:hover { transform: translateY(-5px); }
+        
+        .stars { color: #ffb300; font-size: 1.2rem; margin-bottom: 15px; }
+        .testi-avatar {
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            margin: 0 auto 15px; 
+            border: 4px solid var(--light-sky);
+            background-color: #ddd;
+            object-fit: cover;
+        }
+
+        /* --- FORM --- */
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(41, 182, 246, 0.15);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--light-sky);
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+            background: #fafafa;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent);
+            background: white;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .section { padding: 3rem 5%; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo">Naraa<span>Cuisine</span></div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#testimoni">Testimonials</a></li>
+                <li><a href="#kerjasama">Partners</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h1 class="reveal reveal-up active">Authentic Minang Flavors in Balikpapan
+        <p class="reveal reveal-up active" style="transition-delay: 0.2s;">Enjoy the legendary deliciousness of Rendang and various Padang dishes in a clean, fresh, and comfortable atmosphere in Balikpapan.</p>
+        <div class="reveal reveal-up active" style="transition-delay: 0.4s;">
+            <button class="btn" onclick="document.getElementById('menu').scrollIntoView();">View Our Menu</button>
+        </div>
+    </section>
+
+    <section id="menu" class="section">
+        <h2 class="section-title reveal reveal-up">Favorite Menu</h2>
+        <div class="menu-grid">
+            
+            <div class="menu-card reveal reveal-left">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1606446708682-1e9b25253846?q=80&w=600&auto=format&fit=crop" alt="Beef Rendang" onerror="this.src='https://placehold.co/600x400/29b6f6/ffffff?text=Beef+Rendang'">
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Beef Rendang</h3>
+                    <p>Tender beef cooked for 8 hours with selected spices.</p>
+                    <span class="menu-price">Rp 25.000</span>
+                </div>
+            </div>
+            
+            <div class="menu-card reveal reveal-up" style="transition-delay: 0.2s;">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=600&auto=format&fit=crop" alt="Chicken Curry" onerror="this.src='https://placehold.co/600x400/29b6f6/ffffff?text=Ayam+Sayur'">
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Ayam Sayur (Curry Chicken)</h3>
+                    <p>Chicken cooked in savory and thick yellow curry sauce.</p>
+                    <span class="menu-price">Rp 22.000</span>
+                </div>
+            </div>
+            
+            <div class="menu-card reveal reveal-right" style="transition-delay: 0.4s;">
+                <div class="menu-img">
+                    <img src="https://images.unsplash.com/photo-1549653093-aa9962e707e7?q=80&w=600&auto=format&fit=crop" alt="Gulai Tunjang" onerror="this.src='https://placehold.co/600x400/29b6f6/ffffff?text=Beef+Tendon+Curry'">
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Gulai Tunjang</h3>
+                    <p>Chewy beef tendon served in thick yellow curry sauce.</p>
+                    <span class="menu-price">Rp 28.000</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-light">
+        <h2 class="section-title reveal reveal-up">Naraa Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item reveal reveal-left">
+                <img src="https://images.unsplash.com/photo-1568453443190-d02008ebec99?q=80&w=600&auto=format&fit=crop" alt="Beef Dish">
+            </div>
+            <div class="gallery-item reveal reveal-up">
+                <img src="https://images.unsplash.com/photo-1603083543162-436152b9ae4e?q=80&w=600&auto=format&fit=crop" alt="Chicken Padang">
+            </div>
+            <div class="gallery-item reveal reveal-up">
+                <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=600&auto=format&fit=crop" alt="Iced Lemon Tea">
+            </div>
+            <div class="gallery-item reveal reveal-right">
+                <img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?q=80&w=600&auto=format&fit=crop" alt="Iced Tea">
+            </div>
+        </div>
+    </section>
+
+    <section id="testimoni" class="section">
+        <h2 class="section-title reveal reveal-up">What Customers Say</h2>
+        <div class="testi-grid">
+            <div class="testi-card reveal reveal-left">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="testi-avatar" alt="Budi">
+                <div class="stars">★★★★★</div>
+                <p>"The Rendang is mind-blowing! The spices soak deep into the fibers. The place is also cool with blue vibes."</p>
+                <span class="testi-name">Budi Santoso</span>
+            </div>
+            <div class="testi-card reveal reveal-up" style="transition-delay: 0.2s;">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="testi-avatar" alt="Siti">
+                <div class="stars">★★★★☆</div>
+                <p>"Ayam Sayur is a champion. The chili is just the right amount of spicy. Friendly and fast service."</p>
+                <span class="testi-name">Siti Aminah</span>
+            </div>
+            <div class="testi-card reveal reveal-right" style="transition-delay: 0.4s;">
+                <img src="https://randomuser.me/api/portraits/men/85.jpg" class="testi-avatar" alt="Joko">
+                <div class="stars">★★★★★</div>
+                <p>"Ordered catering for the office once, the portions were huge and the price was very friendly."</p>
+                <span class="testi-name">Joko Anwar</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="kerjasama" class="section bg-light">
+        <h2 class="section-title reveal reveal-up">Partnership Opportunities</h2>
+        <div class="form-container reveal reveal-up">
+            <p style="text-align: center; margin-bottom: 30px;">Interested in opening a franchise or need office catering? Fill out the form below.</p>
+            <form id="partnershipForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp Number</label>
+                    <input type="tel" placeholder="08xxxxxxxx" required>
+                </div>
+                <div class="form-group">
+                    <label>Partnership Type</label>
+                    <select>
+                        <option value="franchise">Franchise / Branch Partner</option>
+                        <option value="catering">Office/Event Catering</option>
+                        <option value="supplier">Raw Material Supplier</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Additional Message</label>
+                    <textarea placeholder="Tell us your needs in detail..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Send Proposal</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <h3>Naraa Cuisine Restaurant</h3>
+        <p>Jl. Jenderal Sudirman, Klandasan Ulu, Balikpapan Kota</p>
+        <p>&copy; 2024 Naraa Cuisine. New Ambiance, Same Authentic Taste.</p>
+    </footer>
+
+    <script>
+        // --- 1. SCRIPT FOR SCROLL ANIMATION (Intersection Observer) ---
+        const observerOptions = {
+            threshold: 0.15 
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active'); 
+                }
+            });
+        }, observerOptions);
+
+        const hiddenElements = document.querySelectorAll('.reveal');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+
+        // --- 2. FORM SCRIPT ---
+        document.getElementById('partnershipForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Thank you! Your data has been sent. Our management team will contact your WhatsApp soon.");
+            this.reset();
+        });
+    </script>
+
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    // GANTI URL DI BAWAH INI DENGAN URL DARI AKUN TAWK.TO ANDA
+    s1.src='https://embed.tawk.to/YOUR_TAWK_TO_ID/YOUR_WIDGET_ID'; 
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    </body>
+</html>
